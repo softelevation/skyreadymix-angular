@@ -1,0 +1,19 @@
+.truck_load_size {
+    border: 1px solid black;
+    padding: 1% 2%;
+    margin: 2px;
+    width: 102px;
+    height: auto;
+    min-height: 68px;
+    max-height: 68px;
+}
+
+
+.color_3 {
+	background-color: yellow;
+}
+
+
+.color_2 {
+	background-color: #c0ecc0;
+}

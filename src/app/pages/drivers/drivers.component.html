@@ -1,0 +1,128 @@
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  driversData" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <app-header></app-header>
+    
+    <app-sidebar></app-sidebar>
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-left mb-0">Drivers</h2>
+                            <div class="breadcrumb-wrapper col-12">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Drivers
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+                    
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="row" id="table-hover-animation">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Driver and Truck Assignments</h4>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-body">
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#inlineForm">
+                                            Add Driver
+                                        </button>
+                                        <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myModalLabel33">Add Driver </h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <form [formGroup]="driverForm">
+                                                        <div class="modal-body">
+                                                            <label>First Name </label>
+                                                            <div class="form-group">
+                                                                <input type="text" formControlName="first_name" placeholder="First Name" class="form-control" required>
+                                                            </div>
+                                                            <label>Last Name </label>
+                                                            <div class="form-group">
+                                                                <input type="text" formControlName="last_name" placeholder="Last Name" class="form-control" required>
+                                                            </div>
+                                                            <label>Email </label>
+                                                            <div class="form-group">
+                                                                <input type="text" formControlName="email" placeholder="Email" class="form-control" required>
+                                                            </div>
+                                                            <label>Mobile Phone </label>
+                                                            <div class="form-group">
+                                                                <input type="text" formControlName="mobile_phone" placeholder="Mobile Phone" class="form-control" required>
+                                                            </div>
+                                                            <label>Truck Number </label>
+                                                            <div class="form-group">
+                                                                <input type="text" formControlName="truck_number" placeholder="Truck Number" class="form-control" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit"  [disabled]="!driverForm.valid" class="btn btn-primary waves-effect waves-light" (click)="addDriver()" data-dismiss="modal">Save </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover-animation mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">First Name</th>
+                                                    <th scope="col">Last Name</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Mobile</th>
+                                                    <th scope="col">Truck</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let driver of drivers">
+                                                    <th scope="row">{{driver.first_name}}</th>
+                                                    <td>{{driver.last_name}}</td>
+                                                    <td>{{driver.email}}</td>
+                                                    <td>{{driver.mobile_phone}}</td>
+                                                    <td>{{driver.truck_number}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
+        </p>
+    </footer>
+    <!-- END: Footer-->
+
+
+</body>

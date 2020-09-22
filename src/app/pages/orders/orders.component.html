@@ -1,0 +1,370 @@
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  ordersData" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+
+    <app-header></app-header>
+    
+    <app-sidebar></app-sidebar>
+
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-left mb-0">List View</h2>
+                            <div class="breadcrumb-wrapper col-12">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#">Orders</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Active Orders
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-right col-md-3 col-12 d-md-block d-none">
+                    
+                </div>
+            </div>
+            <div class="content-body">
+                <!-- Data list view starts -->
+                <section id="data-list-view" class="data-list-view-header">
+                    <div class="action-btns d-none">
+                        <div class="btn-dropdown mr-1 mb-1">
+                            <div class="btn-group dropdown actions-dropodown">
+                                <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Actions
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="#"><i class="feather icon-trash"></i>Delete</a>
+                                    <a class="dropdown-item" href="#"><i class="feather icon-archive"></i>Archive</a>
+                                    <a class="dropdown-item" href="#"><i class="feather icon-file"></i>Print</a>
+                                    <a class="dropdown-item" href="#"><i class="feather icon-save"></i>Another Action</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel33">Add Driver </h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form [formGroup]="driverForm">
+                                    <div class="modal-body">
+                                        <label>Driver name </label>
+                                        <div class="form-group">
+                                            <select class="form-control" name="driver_name" formControlName="driver_name" (change)="changeDriver()">
+                                                <option value="{{driver.truck_number}}" *ngFor="let driver of drivers">{{driver.first_name}} {{driver.last_name}}</option>
+                                            </select>
+                                        </div>
+                                        <label>Vehicle number </label>
+                                        <div class="form-group">
+                                            <input type="text" name="vehicle_number" formControlName="vehicle_number" placeholder="Vehicle number" class="form-control" required>
+                                        </div>
+                                        <label>Status</label>
+                                        <div class="form-group">
+                                        <select class="form-control" name="status" formControlName="status">
+                                            <option value="1">Unassigned</option>
+                                            <option value="2">Assigned</option>
+                                            <option value="3">Completed</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit"   class="btn btn-primary waves-effect waves-light" data-dismiss="modal"  (click)="addOrderDriver()">Save </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DataTable starts -->
+                    <div class="table-responsive">
+                        <div class="vs-list">
+                            <div class="vs-list--header vs-header-list-primary">
+                                <!----><div class="list-titles">
+                                    <div class="vs-list--title">Lancaster</div>
+                                </div>
+                            </div> 
+                        </div>
+                        <table class="table data-list-view">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>TIME</th>
+                                    <th>SHIP TO</th>
+                                    <th>YARDS</th>
+                                    <th>LOAD SIZE</th>
+                                    <th>SPECS</th>
+                                    <th>ORDERED BY</th>
+                                    <th>BILL TO</th>
+                                    <th>INTAKE</th>
+                                    <th style="width: 190px;">FEES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let order of orders">
+                                    <td></td>
+                                    <td class="product-action">
+                                        <span class="action-edit" style="margin-left: -25px;"><i class="feather icon-edit"></i></span>
+                                    </td>
+                                    <td>
+                                            {{order.delivery_date}}<br/>{{order.delivery_time}}
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[0]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,0)"><p>Driver 1</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>
+                                            {{order.delivery_city}}<br/>{{order.delivery_address}}<br/>{{order.delivery_zip}}
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[1]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,1)"><p>Driver 2</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>
+                                            {{ order.yards }}
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[2]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,2)"><p>Driver 3</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>{{ order.truck_load_size }}<br/>
+                                        <strong>{{ order.calculatedLoads }}</strong> Lds
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[3]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,3)"><p>Driver 4</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>PSI: <span class="pull-right">{{ order.psi }}</span><br/>
+                                        Slump: <span class="pull-right">{{ order.slump }}</span><br/>
+                                        Color: <span class="pull-right">{{ order.color }}</span><br/>
+                                        <span class="pull-right">{{ order.clean_up }}</span>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[4]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,4)"><p>Driver 5</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>
+                                        <strong>{{ order.order_company }}</strong><br/>
+                                        {{ order.order_contact }}<br/>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[5]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,5)"><p>Driver 6</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>
+                                        <i class="ficon feather icon-star success"></i> <strong>{{ order.order_company }}</strong><br/>
+                                        {{ order.order_contact }}<br/>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[6]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,6)"><p>Driver 7</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>{{ order.color }} $ {{ order.admix_fee }}
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[7]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,7)"><p>Driver 8</p> <p></p> <p></p></div>
+                                    </td>
+                                    <td>
+                                        Short Load <span class="pull-right">${{ order.calculatedShortFee }}</span><br/>
+                                        Standby {{ order.standby_minutes }} <span class="pull-right">${{ order.calculateStandByMinutes }}</span><br/>
+                                        Admix <span class="pull-right">${{ order.admix_fee }}</span><br/>
+                                        Pump Setup <span class="pull-right">${{ order.pump_setup_fee }}</span><br>
+                                        Pump Total <span class="pull-right">${{ order.calculatedPumpTotal }}</span><br/><br/>
+
+                                        TOTAL DUE <STRONG><span class="primary pull-right">${{ order.calculatedTotalDue }}</span></STRONG><br/>
+                                        Terms <span class="pull-right">{{ order.terms }}</span>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[8]}}" data-toggle="modal" data-target="#inlineForm"><p>Driver 9</p> <p></p> <p></p></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- DataTable ends -->
+
+                    <!-- add new sidebar starts -->
+                    <div class="add-new-data-sidebar">
+                        <div class="overlay-bg"></div>
+                        <div class="add-new-data">
+                            <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                                <div>
+                                    <h4 class="text-uppercase">Order Editor</h4>
+                                </div>
+                                <div class="hide-data-sidebar">
+                                    <i class="feather icon-x"></i>
+                                </div>
+                            </div>
+                            <form #orderForm="ngForm">
+                            <div class="data-items pb-3">
+                                <div class="data-fields px-2 mt-3">
+                                    <div class="row">
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-branch">Branch</label>
+                                            <select class="form-control" [(ngModel)]="order.branch" #branch	="ngModel" name="branch" id="data-branch">
+                                                <option selected>Van Nuys</option>
+                                                <option>Lancaster</option>
+                                                <option>Vernon</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-branch">Status</label>
+                                            <select class="form-control" [(ngModel)]="order.status" #status	="ngModel" name="status" id="data-status">
+                                                <option value="0" selected>New</option>
+                                                <option value="1">In-progress</option>
+                                                <option value="2">Completed</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-deliveryDate">Delivery Date</label>
+                                                <input type="date" class="form-control format-picker picker__input" [(ngModel)]="order.delivery_date" #delivery_date="ngModel" name="delivery_date" id="P1116536142" aria-haspopup="true" aria-owns="P1116536142_root"><div class="picker" id="P1116536142_root" aria-hidden="true"><div class="picker__holder" tabindex="-1"><div class="picker__frame"><div class="picker__wrap"><div class="picker__box"><div class="picker__header"><div class="picker__month">August</div><div class="picker__year">2020</div><div class="picker__nav--prev" data-nav="-1" tabindex="0" role="button" aria-controls="P1116536142_table" title="Previous month"> </div><div class="picker__nav--next" data-nav="1" tabindex="0" role="button" aria-controls="P1116536142_table" title="Next month"> </div></div><table class="picker__table" id="P1116536142_table" role="grid" aria-controls="P1116536142" aria-readonly="true"><thead><tr><th class="picker__weekday" scope="col" title="Sunday">Sun</th><th class="picker__weekday" scope="col" title="Monday">Mon</th><th class="picker__weekday" scope="col" title="Tuesday">Tue</th><th class="picker__weekday" scope="col" title="Wednesday">Wed</th><th class="picker__weekday" scope="col" title="Thursday">Thu</th><th class="picker__weekday" scope="col" title="Friday">Fri</th><th class="picker__weekday" scope="col" title="Saturday">Sat</th></tr></thead><tbody><tr><td><div class="picker__day picker__day--outfocus" data-pick="1595746800000" id="P1116536142_1595746800000" tabindex="0" role="gridcell" aria-label="July, 26, 2020">26</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1595833200000" id="P1116536142_1595833200000" tabindex="0" role="gridcell" aria-label="July, 27, 2020">27</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1595919600000" id="P1116536142_1595919600000" tabindex="0" role="gridcell" aria-label="July, 28, 2020">28</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1596006000000" id="P1116536142_1596006000000" tabindex="0" role="gridcell" aria-label="July, 29, 2020">29</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1596092400000" id="P1116536142_1596092400000" tabindex="0" role="gridcell" aria-label="July, 30, 2020">30</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1596178800000" id="P1116536142_1596178800000" tabindex="0" role="gridcell" aria-label="July, 31, 2020">31</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596265200000" id="P1116536142_1596265200000" tabindex="0" role="gridcell" aria-label="August, 1, 2020">1</div></td></tr><tr><td><div class="picker__day picker__day--infocus" data-pick="1596351600000" id="P1116536142_1596351600000" tabindex="0" role="gridcell" aria-label="August, 2, 2020">2</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596438000000" id="P1116536142_1596438000000" tabindex="0" role="gridcell" aria-label="August, 3, 2020">3</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596524400000" id="P1116536142_1596524400000" tabindex="0" role="gridcell" aria-label="August, 4, 2020">4</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596610800000" id="P1116536142_1596610800000" tabindex="0" role="gridcell" aria-label="August, 5, 2020">5</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596697200000" id="P1116536142_1596697200000" tabindex="0" role="gridcell" aria-label="August, 6, 2020">6</div></td><td><div class="picker__day picker__day--infocus picker__day--selected picker__day--highlighted" data-pick="1596783600000" id="P1116536142_1596783600000" tabindex="0" role="gridcell" aria-label="August, 7, 2020" aria-selected="true" aria-activedescendant="1596783600000">7</div></td><td><div class="picker__day picker__day--infocus" data-pick="1596870000000" id="P1116536142_1596870000000" tabindex="0" role="gridcell" aria-label="August, 8, 2020">8</div></td></tr><tr><td><div class="picker__day picker__day--infocus" data-pick="1596956400000" id="P1116536142_1596956400000" tabindex="0" role="gridcell" aria-label="August, 9, 2020">9</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597042800000" id="P1116536142_1597042800000" tabindex="0" role="gridcell" aria-label="August, 10, 2020">10</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597129200000" id="P1116536142_1597129200000" tabindex="0" role="gridcell" aria-label="August, 11, 2020">11</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597215600000" id="P1116536142_1597215600000" tabindex="0" role="gridcell" aria-label="August, 12, 2020">12</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597302000000" id="P1116536142_1597302000000" tabindex="0" role="gridcell" aria-label="August, 13, 2020">13</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597388400000" id="P1116536142_1597388400000" tabindex="0" role="gridcell" aria-label="August, 14, 2020">14</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597474800000" id="P1116536142_1597474800000" tabindex="0" role="gridcell" aria-label="August, 15, 2020">15</div></td></tr><tr><td><div class="picker__day picker__day--infocus" data-pick="1597561200000" id="P1116536142_1597561200000" tabindex="0" role="gridcell" aria-label="August, 16, 2020">16</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597647600000" id="P1116536142_1597647600000" tabindex="0" role="gridcell" aria-label="August, 17, 2020">17</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597734000000" id="P1116536142_1597734000000" tabindex="0" role="gridcell" aria-label="August, 18, 2020">18</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597820400000" id="P1116536142_1597820400000" tabindex="0" role="gridcell" aria-label="August, 19, 2020">19</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597906800000" id="P1116536142_1597906800000" tabindex="0" role="gridcell" aria-label="August, 20, 2020">20</div></td><td><div class="picker__day picker__day--infocus" data-pick="1597993200000" id="P1116536142_1597993200000" tabindex="0" role="gridcell" aria-label="August, 21, 2020">21</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598079600000" id="P1116536142_1598079600000" tabindex="0" role="gridcell" aria-label="August, 22, 2020">22</div></td></tr><tr><td><div class="picker__day picker__day--infocus" data-pick="1598166000000" id="P1116536142_1598166000000" tabindex="0" role="gridcell" aria-label="August, 23, 2020">23</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598252400000" id="P1116536142_1598252400000" tabindex="0" role="gridcell" aria-label="August, 24, 2020">24</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598338800000" id="P1116536142_1598338800000" tabindex="0" role="gridcell" aria-label="August, 25, 2020">25</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598425200000" id="P1116536142_1598425200000" tabindex="0" role="gridcell" aria-label="August, 26, 2020">26</div></td><td><div class="picker__day picker__day--infocus picker__day--today" data-pick="1598511600000" id="P1116536142_1598511600000" tabindex="0" role="gridcell" aria-label="August, 27, 2020">27</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598598000000" id="P1116536142_1598598000000" tabindex="0" role="gridcell" aria-label="August, 28, 2020">28</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598684400000" id="P1116536142_1598684400000" tabindex="0" role="gridcell" aria-label="August, 29, 2020">29</div></td></tr><tr><td><div class="picker__day picker__day--infocus" data-pick="1598770800000" id="P1116536142_1598770800000" tabindex="0" role="gridcell" aria-label="August, 30, 2020">30</div></td><td><div class="picker__day picker__day--infocus" data-pick="1598857200000" id="P1116536142_1598857200000" tabindex="0" role="gridcell" aria-label="August, 31, 2020">31</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1598943600000" id="P1116536142_1598943600000" tabindex="0" role="gridcell" aria-label="September, 1, 2020">1</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1599030000000" id="P1116536142_1599030000000" tabindex="0" role="gridcell" aria-label="September, 2, 2020">2</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1599116400000" id="P1116536142_1599116400000" tabindex="0" role="gridcell" aria-label="September, 3, 2020">3</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1599202800000" id="P1116536142_1599202800000" tabindex="0" role="gridcell" aria-label="September, 4, 2020">4</div></td><td><div class="picker__day picker__day--outfocus" data-pick="1599289200000" id="P1116536142_1599289200000" tabindex="0" role="gridcell" aria-label="September, 5, 2020">5</div></td></tr></tbody></table><div class="picker__footer"><button class="picker__button--today" type="button" data-pick="1598511600000" aria-controls="P1116536142" disabled="disabled">Today</button><button class="picker__button--clear" type="button" data-clear="1" aria-controls="P1116536142" disabled="disabled">Clear</button><button class="picker__button--close" type="button" data-close="true" aria-controls="P1116536142" disabled="disabled">Close</button></div></div></div></div></div></div>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-deliveryTime">Delivery Time</label>
+                                                <input type="time" class="form-control pickatime picker__input" [(ngModel)]="order.delivery_time" #delivery_time="ngModel" name="delivery_time" id="P1933301764" aria-haspopup="true" aria-owns="P1933301764_root"><div class="picker picker--time" id="P1933301764_root" aria-hidden="true"><div class="picker__holder" tabindex="-1" style=""><div class="picker__frame"><div class="picker__wrap"><div class="picker__box"><ul class="picker__list" role="listbox" aria-controls="P1933301764"><li class="picker__list-item" data-pick="0" role="option" aria-label="12:00 AM">12:00 AM</li><li class="picker__list-item" data-pick="30" role="option" aria-label="12:30 AM">12:30 AM</li><li class="picker__list-item picker__list-item--selected picker__list-item--highlighted picker__list-item--viewset" data-pick="60" role="option" aria-label="1:00 AM" aria-selected="true" aria-activedescendant="true">1:00 AM</li><li class="picker__list-item" data-pick="90" role="option" aria-label="1:30 AM">1:30 AM</li><li class="picker__list-item" data-pick="120" role="option" aria-label="2:00 AM">2:00 AM</li><li class="picker__list-item" data-pick="150" role="option" aria-label="2:30 AM">2:30 AM</li><li class="picker__list-item" data-pick="180" role="option" aria-label="3:00 AM">3:00 AM</li><li class="picker__list-item" data-pick="210" role="option" aria-label="3:30 AM">3:30 AM</li><li class="picker__list-item" data-pick="240" role="option" aria-label="4:00 AM">4:00 AM</li><li class="picker__list-item" data-pick="270" role="option" aria-label="4:30 AM">4:30 AM</li><li class="picker__list-item" data-pick="300" role="option" aria-label="5:00 AM">5:00 AM</li><li class="picker__list-item" data-pick="330" role="option" aria-label="5:30 AM">5:30 AM</li><li class="picker__list-item" data-pick="360" role="option" aria-label="6:00 AM">6:00 AM</li><li class="picker__list-item" data-pick="390" role="option" aria-label="6:30 AM">6:30 AM</li><li class="picker__list-item" data-pick="420" role="option" aria-label="7:00 AM">7:00 AM</li><li class="picker__list-item" data-pick="450" role="option" aria-label="7:30 AM">7:30 AM</li><li class="picker__list-item" data-pick="480" role="option" aria-label="8:00 AM">8:00 AM</li><li class="picker__list-item" data-pick="510" role="option" aria-label="8:30 AM">8:30 AM</li><li class="picker__list-item" data-pick="540" role="option" aria-label="9:00 AM">9:00 AM</li><li class="picker__list-item" data-pick="570" role="option" aria-label="9:30 AM">9:30 AM</li><li class="picker__list-item" data-pick="600" role="option" aria-label="10:00 AM">10:00 AM</li><li class="picker__list-item" data-pick="630" role="option" aria-label="10:30 AM">10:30 AM</li><li class="picker__list-item" data-pick="660" role="option" aria-label="11:00 AM">11:00 AM</li><li class="picker__list-item" data-pick="690" role="option" aria-label="11:30 AM">11:30 AM</li><li class="picker__list-item" data-pick="720" role="option" aria-label="12:00 PM">12:00 PM</li><li class="picker__list-item" data-pick="750" role="option" aria-label="12:30 PM">12:30 PM</li><li class="picker__list-item" data-pick="780" role="option" aria-label="1:00 PM">1:00 PM</li><li class="picker__list-item" data-pick="810" role="option" aria-label="1:30 PM">1:30 PM</li><li class="picker__list-item" data-pick="840" role="option" aria-label="2:00 PM">2:00 PM</li><li class="picker__list-item" data-pick="870" role="option" aria-label="2:30 PM">2:30 PM</li><li class="picker__list-item" data-pick="900" role="option" aria-label="3:00 PM">3:00 PM</li><li class="picker__list-item" data-pick="930" role="option" aria-label="3:30 PM">3:30 PM</li><li class="picker__list-item" data-pick="960" role="option" aria-label="4:00 PM">4:00 PM</li><li class="picker__list-item" data-pick="990" role="option" aria-label="4:30 PM">4:30 PM</li><li class="picker__list-item" data-pick="1020" role="option" aria-label="5:00 PM">5:00 PM</li><li class="picker__list-item" data-pick="1050" role="option" aria-label="5:30 PM">5:30 PM</li><li class="picker__list-item" data-pick="1080" role="option" aria-label="6:00 PM">6:00 PM</li><li class="picker__list-item" data-pick="1110" role="option" aria-label="6:30 PM">6:30 PM</li><li class="picker__list-item" data-pick="1140" role="option" aria-label="7:00 PM">7:00 PM</li><li class="picker__list-item" data-pick="1170" role="option" aria-label="7:30 PM">7:30 PM</li><li class="picker__list-item" data-pick="1200" role="option" aria-label="8:00 PM">8:00 PM</li><li class="picker__list-item" data-pick="1230" role="option" aria-label="8:30 PM">8:30 PM</li><li class="picker__list-item" data-pick="1260" role="option" aria-label="9:00 PM">9:00 PM</li><li class="picker__list-item" data-pick="1290" role="option" aria-label="9:30 PM">9:30 PM</li><li class="picker__list-item" data-pick="1320" role="option" aria-label="10:00 PM">10:00 PM</li><li class="picker__list-item" data-pick="1350" role="option" aria-label="10:30 PM">10:30 PM</li><li class="picker__list-item" data-pick="1380" role="option" aria-label="11:00 PM">11:00 PM</li><li class="picker__list-item" data-pick="1410" role="option" aria-label="11:30 PM">11:30 PM</li><li role="presentation"><button class="picker__button--clear" type="button" data-clear="1" aria-controls="P1933301764" disabled="disabled">Clear</button></li></ul></div></div></div></div></div>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-deliveryAddress">Delivery Address</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.delivery_address" #delivery_address="ngModel" name="delivery_address" id="data-deliveryAddress" required>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-deliveryCity">Delivery City</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.delivery_city" #delivery_city="ngModel" name="delivery_city" id="data-deliveryCity">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-deliveryZip">Delivery Zip</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.delivery_zip" #delivery_zip="ngModel" name="delivery_zip" id="data-deliveryZip">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-orderCompany">Order Company</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.order_company" #order_company="ngModel" name="order_company" id="data-orderCompany">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-orderContact">Order Contact</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.order_contact" #order_contact="ngModel" name="order_contact" id="data-orderContact">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-billToCompany">Bill To Company</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.bill_to_company" #bill_to_company="ngModel" name="bill_to_company" id="data-billToCompany">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-billToContact">Bill To Contact</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.bill_to_contact" #bill_to_contact="ngModel" name="bill_to_contact" id="data-billToContact">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-yardQty">Yards</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.yards" #yards="ngModel" name="yards" id="data-yardQty">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input type="checkbox" [(ngModel)]="order.clean_up" #clean_up="ngModel" name="clean_up" value="false">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i class="vs-icon feather icon-check"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">Cleanup</span>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-loadSize">Truck Load Size</label>
+                                            <select class="form-control" [(ngModel)]="order.truck_load_size" #truck_load_size="ngModel" name="truck_load_size" id="data-loadSize" (change)="calculatedLoadData()">
+                                                <option>9</option>
+                                                <option>10</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col" *ngIf="calculatedLoads">
+                                            <h3 class="primary">{{calculatedLoads}} Loads</h3>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col" *ngIf="calculatedShortFee">
+                                            <label for="data-shortFee">Short Load Fee</label>
+                                            <h3 class="">${{calculatedShortFee}}</h3>
+                                        </div>
+
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-psi">PSI</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.psi" #psi="ngModel" name="psi" id="data-psi">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-slump">Slump</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.slump" #slump="ngModel" name="slump" id="data-slump">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-color">Color</label>
+                                            <select class="form-control" [(ngModel)]="order.color" #color="ngModel" name="color" id="data-status">
+                                                <option value="{{color.color}}" *ngFor="let color of colors">{{color.color}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-admixFee">Admix Fee</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.admix_fee" #admix_fee="ngModel" name="admix_fee" id="data-adminxFee">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-pumpSetup">Pump Setup Fee</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.pump_setup_fee" #pump_setup_fee="ngModel" name="pump_setup_fee" id="data-pumpSetup" (input)="pumpSetupFee()">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-pumperName">Pumper Name</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.pumper_name" #pumper_name="ngModel" name="pumper_name" id="data-pumperName">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col" v-if="pump_total">
+                                            <label for="data-pumpTotal">Pump Total</label>
+                                            <h3 class="">${{pump_total}}</h3>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-standByTime">Standby Minutes</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.standby_minutes" #standby_minutes="ngModel" name="standby_minutes" id="data-standByTime" (input)="standbyMinutes()">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-standByFee">Standby Fee</label>
+                                            <h3 class="">${{calculateStandByMinutes}}</h3>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-otherFees">Other Fees</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.other_fees" #other_fees="ngModel" name="other_fees" id="data-otherFees" (input)="orderTotalCount()">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-discount">Discount</label>
+                                            <input type="text" class="form-control" [(ngModel)]="order.discount	" #discount="ngModel" name="discount" id="data-discount" (input)="orderTotalCount()">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-branch">Terms</label>
+                                            <select class="form-control" [(ngModel)]="order.terms" #terms="ngModel" name="terms" id="data-terms">
+                                                <option value="NET 0" selected>NET 0</option>
+                                                <option value="NET 5">NET 5</option>
+                                                <option value="NET 10">NET 10</option>
+                                                <option value="NET 20">NET 20</option>
+                                                <option value="NET 30">NET 30</option>
+                                                <option value="NET 40">NET 40</option>
+                                                <option value="NET 50">NET 50</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="data-orderTotal">Order Total</label>
+                                            <h3 class="primary">${{orderTotal}}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
+                                <div class="add-data-btn">
+                                    <button class="btn btn-primary" (click)="onSubmit()">Save Order</button>
+                                </div>
+                                <div class="cancel-data-btn">
+                                    <button class="btn btn-outline-danger">Cancel</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- add new sidebar ends -->
+                </section>
+                <!-- Data list view end -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END: Content-->
+
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light">
+        <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
+        </p>
+    </footer>
+
+</body>

@@ -1,0 +1,31 @@
+export class Orders {
+  id: number;
+  delivery_date: string;
+  delivery_time: string;
+  delivery_address: string;
+  delivery_city: string;
+  delivery_zip: string;
+  order_company: string;
+  order_contact: string;
+  bill_to_company: string;
+  bill_to_contact: string;
+  yards: string;
+  clean_up: string;
+  truck_load_size: string;
+  psi: string;
+  slump: string;
+  color: string;
+  admix_fee: string;
+  pump_setup_fee: string;
+  pumper_name: string;
+  standby_minutes: string;
+  other_fees: string;
+  calculatedLoads: string;
+  calculatedShortFee: string;
+  calculatedPumpTotal: string;
+  calculatedTotalDue: string;
+  calculateStandByMinutes: string;
+  discount: string;
+  status: string;
+  terms: string;
+}
