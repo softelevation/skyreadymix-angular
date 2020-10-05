@@ -10,10 +10,203 @@
 
 
 .color_3 {
-	background-color: yellow;
+	background-color: #c0ecc0;
 }
 
 
 .color_2 {
-	background-color: #c0ecc0;
+	background-color: yellow;
 }
+
+.colorsData button.btn.btn-outline-primary.waves-effect.waves-light {
+    margin-left: 17px;
+    padding: 9px 32px;
+    height: 38px;
+    font-size: 1rem !important;
+    margin-bottom:1rem !important; 
+}
+.colorsData .card .card-title {
+    margin-bottom: 0.5rem;
+}
+.table th {
+    font-size: 1rem;
+}
+.driversData .card-body {
+    flex: 1 1 auto;
+    padding: 0;
+}
+
+.driversData .card-body button.btn.btn-outline-primary.waves-effect.waves-light {
+    margin-left: 17px;
+    padding: 9px 32px;
+    height: 38px;
+    font-size: 1rem !important;
+    margin-bottom:1rem !important; 
+}
+
+.driversData .card .card-title {
+    margin-bottom: 0.5rem;
+    }
+
+    .driversData .table-hover-animation tbody tr:hover {
+        transform: translateY(0px);
+    }
+
+    .driversData .table th, .driversData .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #F8F8F8;
+    }
+
+    .ordersData section#data-list-view td {
+        transform: translateY(-4px);
+        background: #fff;
+      padding: 5px!important;
+        vertical-align: top;
+    } 
+
+    .ordersData  .btn.btn-outline-primary.color_.truck_load_size.waves-effect.waves-light , .ordersData .btn.btn-outline-primary.color_2.truck_load_size.waves-effect.waves-light , .ordersData  .btn.btn-outline-primary.color_3.truck_load_size.waves-effect.waves-light {
+        width: 102px;
+        min-height: 68px;
+        max-height: 68px;
+        padding: 1% 2%;
+        text-align: left;
+        color: #000;
+        border-radius: 0;
+        border: 1px solid black;
+    }
+
+    .dataListOrder .btn-add-new.p-3.mb-4.mr-4.rounded-lg.cursor-pointer.flex.items-center.justify-center.text-lg.font-medium.text-base.text-primary.border.border-solid.border-primary span.ml-2.text-base.text-primary {
+        padding: 9px 28px;
+        float: left;
+        margin: 0 !important;
+        border-radius: 5px;
+    }
+
+    .truck_load_size p {
+        margin: 0px;
+    }
+
+    .colorsData .card-header  , .driversData .card-header{
+        margin-bottom: 1.5rem;
+    }
+
+    .driversData .table-hover-animation tbody tr:hover {
+        transform: translateY(0px);
+        background: rgba(34, 41, 47, 0.075);
+    }
+
+    .ordersData .table_paragraph {
+        min-height: 170px;
+        max-height: 170px;
+    }
+
+    .ordersData section#data-list-view tr {
+        transform: translateY(-4px);     border-bottom: 10px solid #F8F8F8;
+    }
+
+    .ordersData section#data-list-view tbody tr:hover {
+        transform: translateY(0);
+    }
+
+    .data-list-view-header .add-new-data-sidebar .add-new-data .data-items {     
+        border-bottom: 0px solid rgba(0, 0, 0, 0.1);
+        height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+        position: relative;
+        touch-action: auto;
+    }
+
+    .home-link {
+         margin-right: 8px;
+    }
+
+
+    .ordersData button.dt-button.btn-outline-primary {
+        margin-left: 17px;
+        padding: 9px 32px;
+        height: 38px;
+        font-size: 1rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: .25rem;
+    }
+
+    .main-menu .main-menu-content i-feather.feather-icon {
+        margin-right: 1rem;
+        float: left;
+        font-size: 1.2rem;
+    }
+
+    .main-menu .main-menu-content i-feather {
+        font-size: 1.2rem;
+        margin-right: 1rem;
+        float: left;
+    }
+
+    .ordersData section#data-list-view tbody tr:hover {
+        transform: translateY(0);
+    }
+
+    .ordersData section#data-list-view  tbody tr {
+        transform: translateY(-4px);
+        border-bottom: 10px solid #f8f8f8;
+    }
+
+    html {
+        letter-spacing: 0.01rem;
+    }
+
+    .main-menu.menu-light .navigation .navigation-header span {
+        color: #999999;
+        line-height: 1.5;
+        letter-spacing: 0.01rem;
+        font-weight: 500;
+    }
+
+    .ordersData .actions.action-btns .btn-group.dropdown.actions-dropodown {
+        box-shadow: 0 0 #fff !important;
+    }
+
+    .ordersData .action-filters {
+        display: none;
+    }
+
+    p.date_and_time {
+        width: 125px;
+    }
+
+    table.data-list-view.dataTable thead .sorting:before , table.data-list-view.dataTable thead .sorting:after { display:none;}
+
+    .ordersData .table_paragraph {
+        min-height: 150px;
+        max-height: 150px;
+        padding: 0 0 0 18px;
+    }
+
+    button.dt-button.add-new-dissable {
+        display: none;
+    }
+
+    td.dataTables_empty {
+        display: none;
+    }
+
+    .i-feather-check {
+        display: contents !important;
+        color: wheat;
+    }
+
+    th.head_fees.sorting {
+        min-width: 120px;
+    }
+
+    th.load_size.sorting {
+        min-width: 65px;
+    }
+
+    th.specs.sorting {
+        min-width: 80px;
+    }
+
+    th.bill_to.sorting {
+        min-width: 85px;
+    }

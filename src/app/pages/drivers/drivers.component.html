@@ -16,9 +16,9 @@
                             <h2 class="content-header-title float-left mb-0">Drivers</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    <li class="home-link"><a href="index.html">Home</a> 
                                     </li>
-                                    <li class="breadcrumb-item active">Drivers
+                                    <li class="breadcrumb-item active"> >> Drivers
                                     </li>
                                 </ol>
                             </div>
@@ -38,7 +38,7 @@
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
-                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#inlineForm">
+                                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#inlineForm" (click)='addNewDriver()'>
                                             Add Driver
                                         </button>
                                         <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" style="display: none;" aria-hidden="true">
@@ -117,11 +117,7 @@
     <div class="drag-target"></div>
 
     <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light">
-        <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
-            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
-        </p>
-    </footer>
+    <app-footer></app-footer>
     <!-- END: Footer-->
 
 

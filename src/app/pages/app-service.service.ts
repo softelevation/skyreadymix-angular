@@ -20,9 +20,21 @@ export class AppServiceService {
       catchError(this.handleError)
     );
   }
+
+  getOrderId(id) {
+    return this.http.get<Colors>(this.serverUrl + 'data-list/products/'+id).pipe(
+      catchError(this.handleError)
+    );
+  }
   
   getOrders() {
     return this.http.get<Orders>(this.serverUrl + 'data-list/products').pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getOrdersFilter(input) {
+    return this.http.get<Orders>(this.serverUrl + 'data-list/products?status_product='+input).pipe(
       catchError(this.handleError)
     );
   }
@@ -47,6 +59,12 @@ export class AppServiceService {
 
   addProduct(input) {
     return this.http.post<Orders>(this.serverUrl + 'data-list/products',input).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateProduct(input,id) {
+    return this.http.post<Orders>(this.serverUrl + 'data-list/products/'+id,input).pipe(
       catchError(this.handleError)
     );
   }

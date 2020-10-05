@@ -36,6 +36,14 @@ export class ColorsComponent implements OnInit {
   }
 
 
+  addNewColor()
+  {
+    this.colorForm.controls.manufacturer.setValue('');
+    this.colorForm.controls.color.setValue('');
+    this.colorForm.controls.rate.setValue('');
+  }
+
+
   get manufacturer() { return this.colorForm.get('manufacturer'); }
   get color() { return this.colorForm.get('color'); }
   get rate() { return this.colorForm.get('rate'); }

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
 import { PagesModule } from './pages/pages.module';
+import { IconsModule } from './icons/icons.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { PagesModule } from './pages/pages.module';
   ],
   imports: [
     BrowserModule,
+    IconsModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,

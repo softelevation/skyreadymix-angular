@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, flatMap } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
 
 @Injectable({
@@ -19,8 +19,11 @@ export class AuthService {
   login(username: string, password: string) {
     return this.http.post<any>(`${this.serverUrl}auth/login`, {email: username, password: password})
     .pipe(map(user => {
-        if (user.status) {
+        if (user.status && user.status === 1) {
           localStorage.setItem('currentUser', JSON.stringify(user.data));
+          return true;
+        }else{
+          return false;
         }
       }),
       catchError(this.handleError)
@@ -32,6 +35,13 @@ export class AuthService {
       return true;
     }
     return false;
+  }
+
+  userInfo() {
+    if (localStorage.getItem('currentUser')) {
+      return localStorage.getItem('currentUser');
+    }
+    return '';
   }
 
   logout() {

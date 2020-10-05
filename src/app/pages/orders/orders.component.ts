@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Orders } from './orders';
 import { AppServiceService } from './../app-service.service';
+import { AuthService } from './../../auth/auth.service';
 
 @Component({
   selector: 'app-orders',
@@ -13,6 +14,8 @@ export class OrdersComponent implements OnInit {
 
   orderForm: FormGroup;
   driverForm: FormGroup;
+  userInfo: usersInfo;
+  username: string;
   order: any;
   orders: Orders;
   colors: Colors;
@@ -24,19 +27,28 @@ export class OrdersComponent implements OnInit {
   calculatedShortFee: number;
   pump_total: number;
   calculateStandByMinutes: number;
-  orderTotal: number;
+  orderTotal: string;
+  editId: number;
+  branchVal = 'all';
+  order_status = 'disabled';
+  allBranchs = [
+      {text: 'Van Nuys', value: 'Van Nuys'},
+      {text: 'Lancaster', value: 'Lancaster'},
+      {text: 'Vernon', value: 'Vernon'}
+  ]
 
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private appService: AppServiceService
+    private appService: AppServiceService,
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
 
     // this.order = {'delivery_address':'eeeeeeeeee'};
-
+    this.editId = 0; 
     this.driverForm = this.fb.group({
       driver_name: ['', Validators.required],
       vehicle_number: ['', Validators.required],
@@ -55,6 +67,7 @@ export class OrdersComponent implements OnInit {
         order_contact: '',
         bill_to_company: '',
         bill_to_contact: '',
+        ordered_by_vip: '',
         yards: '',
         clean_up: '',
         truck_load_size: '',
@@ -110,7 +123,7 @@ export class OrdersComponent implements OnInit {
   calculatedLoadData(){
     this.calculatedLoads = Math.ceil(parseFloat(this.order.yards) / parseFloat(this.order.truck_load_size));
 
-    if(this.order.yards < this.order.truck_load_size){
+    if(parseInt(this.order.yards) < parseInt(this.order.truck_load_size)){
       this.calculatedShortFee = (parseFloat(this.order.truck_load_size) - parseFloat(this.order.yards)) * 20;
     }else{
       this.calculatedShortFee = 0;
@@ -137,9 +150,19 @@ export class OrdersComponent implements OnInit {
     }
   }
 
+  filterOrder(){
+      this.appService.getOrdersFilter(this.branchVal).subscribe(
+        (data: Orders) =>  {
+            this.orders = data['data'];
+            this.colors = data['colordata'];
+            this.drivers = data['driverdata'];
+        }
+      );
+  }
+
 
   orderTotalCount(){
-        const pumpTotal = this.pumpSetupFee();
+        const pumpTotal = this.pump_total;
         const shortFee = this.calculatedShortFee;
         const loads = this.calculatedLoads;
 
@@ -150,14 +173,106 @@ export class OrdersComponent implements OnInit {
         const price = parseFloat(this.order.psi);
         const standByMinutes = parseFloat(this.order.standby_minutes);
         const discount = this.order.discount;
-        // let return_data = (((shortFee + (yardsQty * price + admixFee) + (loads * 60))) * 0.095) + shortFee + ((yardsQty * (price + admixFee) + (loads * 60))) + pumpTotal + otherFee + standByMinutes;
-        // if (discount) this.orderTotal = (return_data - (return_data * discount)/100);
-        // return this.orderTotal = return_data;
-        this.orderTotal = ((shortFee + (yardsQty * price + admixFee) +  (loads * 60)) * 0.095) + shortFee + (yardsQty * (price + admixFee) + (loads * 60));
+        let orderTotals = (((shortFee + (yardsQty * price + admixFee) + (loads * 60))) * 0.095) + shortFee + ((yardsQty * (price + admixFee) + (loads * 60))) + pumpTotal + otherFee + standByMinutes;
+        if(discount && parseInt(discount) > 0){
+          let full_orderTotal = orderTotals - (orderTotals * discount)/100;
+          this.orderTotal = (Math.round(full_orderTotal * 100) / 100).toFixed(2);
+        }else{
+          this.orderTotal = (Math.round(orderTotals * 100) / 100).toFixed(2);
+        }
+      }
+  
+  addOrder() {
+        this.order = {
+          branch: '',
+          status: '',
+          delivery_date: '',
+          delivery_time: '',
+          delivery_address: '',
+          delivery_city: '',
+          delivery_zip: '',
+          order_company: '',
+          order_contact: '',
+          bill_to_company: '',
+          bill_to_contact: '',
+          ordered_by_vip: '',
+          yards: '',
+          clean_up: '',
+          truck_load_size: '',
+          psi: '',
+          slump: '',
+          color: '',
+          admix_fee: '',
+          pump_setup_fee: '',
+          pumper_name: '',
+          standby_minutes: '',
+          other_fees: '',
+          discount: '',
+          terms: ''
+        };
+        this.calculatedLoads = 0;
+        this.calculatedShortFee = 0;
+        this.pump_total = 0;
+        this.calculateStandByMinutes = 0;
+        this.orderTotal = '';
+        this.order_status = 'disabled';
   }
-  // orderTotal calculatedTotalDue
+
+
+  editOrder(id) {
+      // console.log('qqqqqqqqqqqqqqqqqq '+id);
+      this.appService.getOrderId(id).subscribe((data) =>  {
+            if(data['status']){
+              this.editId = data['data']['id'];
+              this.order = {
+                'branch': data['data']['branch'],
+                'status': data['data']['status'],
+                'delivery_date': data['data']['delivery_date'],
+                'delivery_time': data['data']['delivery_time'],
+                'delivery_address': data['data']['delivery_address'],
+                'delivery_city': data['data']['delivery_city'],
+                'delivery_zip': data['data']['delivery_zip'],
+                'order_company': data['data']['order_company'],
+                'order_contact': data['data']['order_contact'],
+                'bill_to_company': data['data']['bill_to_company'],
+                'bill_to_contact': data['data']['bill_to_contact'],
+                'ordered_by_vip': data['data']['ordered_by_vip'],
+                'yards': data['data']['yards'],
+                'clean_up': data['data']['clean_up'],
+                'truck_load_size': data['data']['truck_load_size'],
+                'psi': data['data']['psi'],
+                'slump': data['data']['slump'],
+                'color': data['data']['color'],
+                'admix_fee': data['data']['admix_fee'],
+                'pump_setup_fee': data['data']['pump_setup_fee'],
+                'pumper_name': data['data']['pumper_name'],
+                'standby_minutes': data['data']['standby_minutes'],
+                'other_fees': data['data']['other_fees'],
+                'discount': data['data']['discount'],
+                'terms': data['data']['terms']
+              };
+              this.calculatedLoads = data['data']['calculatedLoads'];
+              this.calculatedShortFee = data['data']['calculatedShortFee'];
+              // this.pump_total = data['data']['calculatedShortFee'];
+
+              const pumpFee = parseFloat(data['data']['pump_setup_fee']);
+              const yardsQty = (data['data']['yards']) ? parseFloat(data['data']['yards']) : 0;
+              if (pumpFee > 0) {
+                this.pump_total = yardsQty * 9 + pumpFee;
+              }else{
+                this.pump_total = 0;
+              }
+              this.calculateStandByMinutes = data['data']['calculateStandByMinutes'];
+              this.orderTotal = data['data']['calculatedPumpTotal'];
+              this.order_status = 'enabled';
+            }
+        }
+      );
+
+  }
 
   onSubmit() {
+    // console.log(this.editId);
     let saveData = this.order;
         saveData.calculatedLoads = this.calculatedLoads;
         saveData.calculatedShortFee = this.calculatedShortFee;
@@ -165,9 +280,23 @@ export class OrdersComponent implements OnInit {
         saveData.calculateStandByMinutes = this.calculateStandByMinutes;
         saveData.calculatedPumpTotal = this.orderTotal;
         saveData.calculatedTotalDue = this.orderTotal;
-      this.appService.addProduct(saveData).subscribe((data: Orders) => {
-        this.orders = data['data'];
-      });
+        this.userInfo = JSON.parse(this.authService.userInfo());
+        if(this.userInfo){
+          saveData.username = this.userInfo.name;
+        }else{
+          saveData.username = 'John';
+        }
+
+      if(this.editId){
+        this.appService.updateProduct(saveData,this.editId).subscribe((data: Orders) => {
+          this.editId = 0;
+          this.orders = data['data'];
+        });
+      }else{
+        this.appService.addProduct(saveData).subscribe((data: Orders) => {
+          this.orders = data['data'];
+        });
+      }
   }
 
 }
@@ -187,4 +316,10 @@ interface Drivers {
   email: string;
   mobile_phone: string;
   truck_number	: string;
+}
+
+interface usersInfo {
+  name: string;
+  email: string;
+  displayName: string;
 }

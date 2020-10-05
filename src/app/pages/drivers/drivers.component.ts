@@ -41,6 +41,16 @@ export class DriversComponent implements OnInit {
   get mobile_phone() { return this.driverForm.get('mobile_phone'); }
   get truck_number() { return this.driverForm.get('truck_number'); }
 
+
+  addNewDriver(){
+    this.driverForm.controls.first_name.setValue('');
+    this.driverForm.controls.last_name.setValue('');
+    this.driverForm.controls.email.setValue('');
+    this.driverForm.controls.mobile_phone.setValue('');
+    this.driverForm.controls.truck_number.setValue('');
+  }
+
+
   addDriver() {
       let obj = {
         first_name : this.first_name.value,

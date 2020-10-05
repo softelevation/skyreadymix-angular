@@ -9,6 +9,7 @@ export class Orders {
   order_contact: string;
   bill_to_company: string;
   bill_to_contact: string;
+  ordered_by_vip: string;
   yards: string;
   clean_up: string;
   truck_load_size: string;
@@ -20,7 +21,7 @@ export class Orders {
   pumper_name: string;
   standby_minutes: string;
   other_fees: string;
-  calculatedLoads: string;
+  calculatedLoads: number;
   calculatedShortFee: string;
   calculatedPumpTotal: string;
   calculatedTotalDue: string;

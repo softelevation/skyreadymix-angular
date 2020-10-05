@@ -16,11 +16,11 @@
                             <h2 class="content-header-title float-left mb-0">List View</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    <li class="home-link"><a href="index.html">Home</a> >>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="#">Orders</a>
+                                    <li class="home-link"><a href="#">Orders</a> >>
                                     </li>
-                                    <li class="breadcrumb-item active">Active Orders
+                                    <li class="">Active Orders
                                     </li>
                                 </ol>
                             </div>
@@ -37,15 +37,15 @@
                     <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
                             <div class="btn-group dropdown actions-dropodown">
-                                <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Actions
+                                <select class="form-control" placeholder="Action" [(ngModel)]="branchVal" id="data-branch" (change)="filterOrder()">
+                                    <option value="all">All</option>
+                                    <option *ngFor="let allBranch of allBranchs" value="{{allBranch.value}}">{{allBranch.text}}</option>
+                                </select>
+                            </div>
+                            <div class="btn-group dropdown actions-dropodown">
+                                <button class="dt-button btn-outline-primary add-active-orders" tabindex="0" aria-controls="DataTables_Table_0" (click)='addOrder()'>
+                                    <span><i class="feather icon-plus"></i> Add New</span>
                                 </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#"><i class="feather icon-trash"></i>Delete</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-archive"></i>Archive</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-file"></i>Print</a>
-                                    <a class="dropdown-item" href="#"><i class="feather icon-save"></i>Another Action</a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,13 +88,14 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- DataTable starts -->
                     <div class="table-responsive">
                         <div class="vs-list">
                             <div class="vs-list--header vs-header-list-primary">
                                 <!----><div class="list-titles">
                                     <div class="vs-list--title">Lancaster</div>
+                                    
                                 </div>
                             </div> 
                         </div>
@@ -106,12 +107,14 @@
                                     <th>TIME</th>
                                     <th>SHIP TO</th>
                                     <th>YARDS</th>
-                                    <th>LOAD SIZE</th>
-                                    <th>SPECS</th>
+                                    <th class="load_size">LOAD SIZE</th>
+                                    <th class="specs">SPECS</th>
                                     <th>ORDERED BY</th>
-                                    <th>BILL TO</th>
+                                    <th class="bill_to">BILL TO</th>
                                     <th>INTAKE</th>
-                                    <th style="width: 190px;">FEES</th>
+                                    <th class="head_fees">FEES</th>
+                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,50 +124,121 @@
                                         <span class="action-edit" style="margin-left: -25px;"><i class="feather icon-edit"></i></span>
                                     </td>
                                     <td>
-                                            {{order.delivery_date}}<br/>{{order.delivery_time}}
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[0]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,0)"><p>Driver 1</p> <p></p> <p></p></div>
+                                            <div class="table_paragraph">
+                                                {{order.delivery_date}}<br/>{{order.delivery_time}}
+                                            </div>
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[0]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,0)" *ngIf="order.calculatedLoads > 0">
+                                                <p>Driver 1</p> 
+                                                <p>{{order.driver_names[0]}}</p> 
+                                                <p>{{order.vehicle_number[0]}}</p>
+                                            </div>
                                     </td>
                                     <td>
-                                            {{order.delivery_city}}<br/>{{order.delivery_address}}<br/>{{order.delivery_zip}}
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[1]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,1)"><p>Driver 2</p> <p></p> <p></p></div>
+                                            <div class="table_paragraph">
+                                                {{order.delivery_city}}<br/>{{order.delivery_address}}<br/>{{order.delivery_zip}}
+                                            </div>
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[1]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,1)" *ngIf="order.calculatedLoads > 1">
+                                                <p>Driver 2</p>
+                                                <p>{{order.driver_names[1]}}</p> 
+                                                <p>{{order.vehicle_number[1]}}</p>
+                                            </div>
                                     </td>
                                     <td>
-                                            {{ order.yards }}
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[2]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,2)"><p>Driver 3</p> <p></p> <p></p></div>
-                                    </td>
-                                    <td>{{ order.truck_load_size }}<br/>
-                                        <strong>{{ order.calculatedLoads }}</strong> Lds
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[3]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,3)"><p>Driver 4</p> <p></p> <p></p></div>
-                                    </td>
-                                    <td>PSI: <span class="pull-right">{{ order.psi }}</span><br/>
-                                        Slump: <span class="pull-right">{{ order.slump }}</span><br/>
-                                        Color: <span class="pull-right">{{ order.color }}</span><br/>
-                                        <span class="pull-right">{{ order.clean_up }}</span>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[4]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,4)"><p>Driver 5</p> <p></p> <p></p></div>
+                                            <div class="table_paragraph">
+                                                {{ order.yards }} yds
+                                            </div>
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[2]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,2)" *ngIf="order.calculatedLoads > 2">
+                                                <p>Driver 3</p>
+                                                <p>{{order.driver_names[2]}}</p> 
+                                                <p>{{order.vehicle_number[2]}}</p>
+                                            </div>
                                     </td>
                                     <td>
-                                        <strong>{{ order.order_company }}</strong><br/>
-                                        {{ order.order_contact }}<br/>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[5]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,5)"><p>Driver 6</p> <p></p> <p></p></div>
+                                        <div class="table_paragraph">
+                                            {{ order.truck_load_size }}<br/>
+                                            <strong>{{ order.calculatedLoads }}</strong> Lds
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[3]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,3)" *ngIf="order.calculatedLoads > 3">
+                                            <p>Driver 4</p>
+                                            <p>{{order.driver_names[3]}}</p> 
+                                            <p>{{order.vehicle_number[3]}}</p>
+                                        </div>
                                     </td>
                                     <td>
-                                        <i class="ficon feather icon-star success"></i> <strong>{{ order.order_company }}</strong><br/>
-                                        {{ order.order_contact }}<br/>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[6]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,6)"><p>Driver 7</p> <p></p> <p></p></div>
-                                    </td>
-                                    <td>{{ order.color }} $ {{ order.admix_fee }}
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[7]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,7)"><p>Driver 8</p> <p></p> <p></p></div>
+                                        <div class="table_paragraph">
+                                            PSI: <span class="pull-right">{{ order.psi }}</span><br/>
+                                            Slump: <span class="pull-right">{{ order.slump }}</span><br/>
+                                            Color: <span class="pull-right">{{ order.color }}</span><br/>
+                                            <span class="pull-right" *ngIf="order.clean_up">+ Cleanup</span>
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[4]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,4)" *ngIf="order.calculatedLoads > 4">
+                                            <p>Driver 5</p>
+                                            <p>{{order.driver_names[4]}}</p> 
+                                            <p>{{order.vehicle_number[4]}}</p>
+                                        </div>
                                     </td>
                                     <td>
-                                        Short Load <span class="pull-right">${{ order.calculatedShortFee }}</span><br/>
-                                        Standby {{ order.standby_minutes }} <span class="pull-right">${{ order.calculateStandByMinutes }}</span><br/>
-                                        Admix <span class="pull-right">${{ order.admix_fee }}</span><br/>
-                                        Pump Setup <span class="pull-right">${{ order.pump_setup_fee }}</span><br>
-                                        Pump Total <span class="pull-right">${{ order.calculatedPumpTotal }}</span><br/><br/>
+                                        <div class="table_paragraph">
+                                            <strong>{{ order.order_company }}</strong>
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[5]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,5)" *ngIf="order.calculatedLoads > 5">
+                                            <p>Driver 6</p>
+                                            <p>{{order.driver_names[5]}}</p> 
+                                            <p>{{order.vehicle_number[5]}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table_paragraph">
+                                            <i-feather name="star" *ngIf="order.ordered_by_vip"></i-feather>
+                                            <strong>{{ order.bill_to_company }}</strong>
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[6]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,6)" *ngIf="order.calculatedLoads > 6">
+                                            <p>Driver 7</p>
+                                            <p>{{order.driver_names[6]}}</p> 
+                                            <p>{{order.vehicle_number[6]}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table_paragraph">
 
-                                        TOTAL DUE <STRONG><span class="primary pull-right">${{ order.calculatedTotalDue }}</span></STRONG><br/>
-                                        Terms <span class="pull-right">{{ order.terms }}</span>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[8]}}" data-toggle="modal" data-target="#inlineForm"><p>Driver 9</p> <p></p> <p></p></div>
+                                            <p class="date_and_time">{{ order.timestamps }}</p>
+                                            <p class="date_and_time">{{ order.username }}</p>
+                                            <p class="date_and_time">{{ order.delivery_date| date:'d/m/y' }} {{ order.delivery_time }}</p> 
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[7]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,7)" *ngIf="order.calculatedLoads > 7">
+                                            <p>Driver 8</p>
+                                            <p>{{order.driver_names[7]}}</p> 
+                                            <p>{{order.vehicle_number[7]}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="table_paragraph">
+                                            Short Load <br />
+                                            Standby {{ order.standby_minutes }} <br />
+                                            Admix <br />
+                                            Pump Setup <br />
+                                            Pump Total <br />
+                                            <b class="total_due">TOTAL DUE </b> <br />
+                                            Terms
+                                        </div>
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[8]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,8)" *ngIf="order.calculatedLoads > 8">
+                                            <p>Driver 9</p>
+                                            <p>{{order.driver_names[8]}}</p> 
+                                            <p>{{order.vehicle_number[8]}}</p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="pull-right">${{ order.calculatedShortFee }}</span> <br />
+                                        <span class="pull-right">${{ order.calculateStandByMinutes }}</span> <br />
+                                        <span class="pull-right">${{ order.admix_fee }}</span> <br />
+                                        <span class="pull-right">${{ order.pump_setup_fee }}</span> <br />
+                                        <span class="pull-right">${{ order.calculatedPumpTotal }}</span> <br />
+                                        <STRONG><span class="primary pull-right">${{ order.calculatedTotalDue }}</span></STRONG> <br />
+                                        <span class="pull-right">{{ order.terms }}</span>
+                                    </td>
+                                    <td>
+                                        <i-feather (click)='editOrder(order.id)' class="edit-active-orders" name="edit"></i-feather>
+                                        <i-feather name="trash"></i-feather>
                                     </td>
                                 </tr>
                             </tbody>
@@ -198,7 +272,7 @@
                                         </div>
                                         <div class="col-sm-12 data-field-col">
                                             <label for="data-branch">Status</label>
-                                            <select class="form-control" [(ngModel)]="order.status" #status	="ngModel" name="status" id="data-status">
+                                            <select class="form-control" [(ngModel)]="order.status" #status	="ngModel" name="status" id="data-status" [disabled]="order_status=='disabled' ? true : null">
                                                 <option value="0" selected>New</option>
                                                 <option value="1">In-progress</option>
                                                 <option value="2">Completed</option>
@@ -241,8 +315,21 @@
                                             <input type="text" class="form-control" [(ngModel)]="order.bill_to_contact" #bill_to_contact="ngModel" name="bill_to_contact" id="data-billToContact">
                                         </div>
                                         <div class="col-sm-12 data-field-col">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input type="checkbox" [(ngModel)]="order.ordered_by_vip" #ordered_by_vip="ngModel" name="ordered_by_vip" value="false">
+                                                    <span class="vs-checkbox">
+                                                        <span class="vs-checkbox--check">
+                                                            <i-feather class="i-feather-check" name="check"></i-feather>
+                                                        </span>
+                                                    </span>
+                                                    <span class="">Ordered by VIP</span>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
                                             <label for="data-yardQty">Yards</label>
-                                            <input type="text" class="form-control" [(ngModel)]="order.yards" #yards="ngModel" name="yards" id="data-yardQty">
+                                            <input type="text" class="form-control" [(ngModel)]="order.yards" #yards="ngModel" name="yards" id="data-yardQty" (input)="calculatedLoadData()">
                                         </div>
                                         <div class="col-sm-12 data-field-col">
                                             <fieldset>
@@ -250,7 +337,7 @@
                                                     <input type="checkbox" [(ngModel)]="order.clean_up" #clean_up="ngModel" name="clean_up" value="false">
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
-                                                            <i class="vs-icon feather icon-check"></i>
+                                                            <i-feather class="i-feather-check" name="check"></i-feather>
                                                         </span>
                                                     </span>
                                                     <span class="">Cleanup</span>
@@ -321,13 +408,12 @@
                                         <div class="col-sm-12 data-field-col">
                                             <label for="data-branch">Terms</label>
                                             <select class="form-control" [(ngModel)]="order.terms" #terms="ngModel" name="terms" id="data-terms">
-                                                <option value="NET 0" selected>NET 0</option>
-                                                <option value="NET 5">NET 5</option>
-                                                <option value="NET 10">NET 10</option>
-                                                <option value="NET 20">NET 20</option>
+                                                <option value="COD" selected>COD</option>
+                                                <option value="Charge Account">Charge Account</option>
+                                                <option value="Net 0">Net 0</option>
+                                                <option value="NET 7">NET 7</option>
+                                                <option value="NET 15">NET 15</option>
                                                 <option value="NET 30">NET 30</option>
-                                                <option value="NET 40">NET 40</option>
-                                                <option value="NET 50">NET 50</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-12 data-field-col">
@@ -338,7 +424,7 @@
                                 </div>
                             </div>
                             <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
-                                <div class="add-data-btn">
+                                <div class="cancel-data-btn">
                                     <button class="btn btn-primary" (click)="onSubmit()">Save Order</button>
                                 </div>
                                 <div class="cancel-data-btn">
@@ -361,10 +447,6 @@
     <div class="drag-target"></div>
 
     <!-- BEGIN: Footer-->
-    <footer class="footer footer-static footer-light">
-        <p class="clearfix blue-grey lighten-2 mb-0"><span class="float-md-left d-block d-md-inline-block mt-25">COPYRIGHT &copy; 2020<a class="text-bold-800 grey darken-2" href="https://1.envato.market/pixinvent_portfolio" target="_blank">Pixinvent,</a>All rights Reserved</span><span class="float-md-right d-none d-md-block">Hand-crafted & Made with<i class="feather icon-heart pink"></i></span>
-            <button class="btn btn-primary btn-icon scroll-top" type="button"><i class="feather icon-arrow-up"></i></button>
-        </p>
-    </footer>
+    <app-footer></app-footer>
 
 </body>

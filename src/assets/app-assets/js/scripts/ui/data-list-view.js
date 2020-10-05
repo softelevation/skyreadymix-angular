@@ -34,7 +34,7 @@ $(document).ready(function() {
     pageLength: 4,
     buttons: [
       {
-        text: "<i class='feather icon-plus'></i> Add New",
+        text: "",
         action: function() {
           $(this).removeClass("btn-secondary")
           $(".add-new-data").addClass("show")
@@ -42,7 +42,7 @@ $(document).ready(function() {
           $("#data-name, #data-price").val("")
           $("#data-category, #data-status").prop("selectedIndex", 0)
         },
-        className: "btn-outline-primary"
+        className: "add-new-dissable"
       }
     ],
     initComplete: function(settings, json) {
@@ -57,6 +57,23 @@ $(document).ready(function() {
       }
     }, 50);
   });
+
+  $(document).on('click', 'button[class="dt-button btn-outline-primary add-active-orders"]', function(){
+      $(this).removeClass("btn-secondary")
+      $(".add-new-data").addClass("show")
+      $(".overlay-bg").addClass("show")
+      $("#data-name, #data-price").val("")
+      $("#data-category, #data-status").prop("selectedIndex", 0)
+  });
+
+  $(document).on('click', '.edit-active-orders', function(){
+      $(this).removeClass("btn-secondary")
+      $(".add-new-data").addClass("show")
+      $(".overlay-bg").addClass("show")
+      $("#data-name, #data-price").val("")
+      $("#data-category, #data-status").prop("selectedIndex", 0)
+  });
+  
 
   // init thumb view datatable
   var dataThumbView = $(".data-thumb-view").DataTable({
