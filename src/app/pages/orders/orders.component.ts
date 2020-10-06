@@ -102,9 +102,40 @@ export class OrdersComponent implements OnInit {
       });
   }
 
-  maintainStatus(x,y){
+  maintainStatus(x,y,z){
       this.order_id = x;
       this.index_id = y;
+      if(z){
+          this.appService.getDriverByNumber(x,y,z).subscribe(
+            (data: Drivers) => {
+              this.drivers = data['driverdata'];
+              if(data['data'].driver_status == '1'){
+                this.driverForm.patchValue({
+                  driver_name: '',
+                  vehicle_number: '',
+                  status: ''
+                });
+              }else{
+                this.driverForm.patchValue({
+                  driver_name: data['data'].truck_number,
+                  vehicle_number: data['data'].truck_number,
+                  status: data['data'].driver_status
+                });
+              }
+            }
+          );
+      }else{
+        this.appService.getDrivers().subscribe(
+          (data: Drivers) => this.drivers = data['data'],
+          error => this.error = error
+        );
+
+        this.driverForm.patchValue({
+          driver_name: '',
+          vehicle_number: '',
+          status: ''
+        });
+      }
   }
 
   addOrderDriver(){

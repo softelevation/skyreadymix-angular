@@ -127,30 +127,30 @@
                                             <div class="table_paragraph">
                                                 {{order.delivery_date}}<br/>{{order.delivery_time}}
                                             </div>
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[0]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,0)" *ngIf="order.calculatedLoads > 0">
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[0]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,0,order.vehicle_number[0])" *ngIf="order.calculatedLoads > 0">
                                                 <p>Driver 1</p> 
-                                                <p>{{order.driver_names[0]}}</p> 
-                                                <p>{{order.vehicle_number[0]}}</p>
+                                                <p *ngIf="order.driver_status[0] != 1">{{order.driver_names[0]}}</p> 
+                                                <p *ngIf="order.driver_status[0] != 1">{{order.vehicle_number[0]}}</p>
                                             </div>
                                     </td>
                                     <td>
                                             <div class="table_paragraph">
                                                 {{order.delivery_city}}<br/>{{order.delivery_address}}<br/>{{order.delivery_zip}}
                                             </div>
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[1]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,1)" *ngIf="order.calculatedLoads > 1">
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[1]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,1,order.vehicle_number[1])" *ngIf="order.calculatedLoads > 1">
                                                 <p>Driver 2</p>
-                                                <p>{{order.driver_names[1]}}</p> 
-                                                <p>{{order.vehicle_number[1]}}</p>
+                                                <p *ngIf="order.driver_status[1] != 1">{{order.driver_names[1]}}</p> 
+                                                <p *ngIf="order.driver_status[1] != 1">{{order.vehicle_number[1]}}</p>
                                             </div>
                                     </td>
                                     <td>
                                             <div class="table_paragraph">
                                                 {{ order.yards }} yds
                                             </div>
-                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[2]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,2)" *ngIf="order.calculatedLoads > 2">
+                                            <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[2]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,2,order.vehicle_number[2])" *ngIf="order.calculatedLoads > 2">
                                                 <p>Driver 3</p>
-                                                <p>{{order.driver_names[2]}}</p> 
-                                                <p>{{order.vehicle_number[2]}}</p>
+                                                <p *ngIf="order.driver_status[2] != 1">{{order.driver_names[2]}}</p> 
+                                                <p *ngIf="order.driver_status[2] != 1">{{order.vehicle_number[2]}}</p>
                                             </div>
                                     </td>
                                     <td>
@@ -158,10 +158,10 @@
                                             {{ order.truck_load_size }}<br/>
                                             <strong>{{ order.calculatedLoads }}</strong> Lds
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[3]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,3)" *ngIf="order.calculatedLoads > 3">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[3]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,3,order.vehicle_number[3])" *ngIf="order.calculatedLoads > 3">
                                             <p>Driver 4</p>
-                                            <p>{{order.driver_names[3]}}</p> 
-                                            <p>{{order.vehicle_number[3]}}</p>
+                                            <p *ngIf="order.driver_status[3] != 1">{{order.driver_names[3]}}</p> 
+                                            <p *ngIf="order.driver_status[3] != 1">{{order.vehicle_number[3]}}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -171,20 +171,20 @@
                                             Color: <span class="pull-right">{{ order.color }}</span><br/>
                                             <span class="pull-right" *ngIf="order.clean_up">+ Cleanup</span>
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[4]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,4)" *ngIf="order.calculatedLoads > 4">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[4]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,4,order.vehicle_number[4])" *ngIf="order.calculatedLoads > 4">
                                             <p>Driver 5</p>
-                                            <p>{{order.driver_names[4]}}</p> 
-                                            <p>{{order.vehicle_number[4]}}</p>
+                                            <p *ngIf="order.driver_status[4] != 1">{{order.driver_names[4]}}</p> 
+                                            <p *ngIf="order.driver_status[4] != 1">{{order.vehicle_number[4]}}</p>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="table_paragraph">
                                             <strong>{{ order.order_company }}</strong>
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[5]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,5)" *ngIf="order.calculatedLoads > 5">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[5]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,5,order.vehicle_number[5])" *ngIf="order.calculatedLoads > 5">
                                             <p>Driver 6</p>
-                                            <p>{{order.driver_names[5]}}</p> 
-                                            <p>{{order.vehicle_number[5]}}</p>
+                                            <p *ngIf="order.driver_status[5] != 1">{{order.driver_names[5]}}</p> 
+                                            <p *ngIf="order.driver_status[5] != 1">{{order.vehicle_number[5]}}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -192,10 +192,10 @@
                                             <i-feather name="star" *ngIf="order.ordered_by_vip"></i-feather>
                                             <strong>{{ order.bill_to_company }}</strong>
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[6]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,6)" *ngIf="order.calculatedLoads > 6">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[6]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,6,order.vehicle_number[6])" *ngIf="order.calculatedLoads > 6">
                                             <p>Driver 7</p>
-                                            <p>{{order.driver_names[6]}}</p> 
-                                            <p>{{order.vehicle_number[6]}}</p>
+                                            <p *ngIf="order.driver_status[6] != 1">{{order.driver_names[6]}}</p> 
+                                            <p *ngIf="order.driver_status[6] != 1">{{order.vehicle_number[6]}}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -205,10 +205,10 @@
                                             <p class="date_and_time">{{ order.username }}</p>
                                             <p class="date_and_time">{{ order.delivery_date| date:'d/m/y' }} {{ order.delivery_time }}</p> 
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[7]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,7)" *ngIf="order.calculatedLoads > 7">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[7]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,7,order.vehicle_number[7])" *ngIf="order.calculatedLoads > 7">
                                             <p>Driver 8</p>
-                                            <p>{{order.driver_names[7]}}</p> 
-                                            <p>{{order.vehicle_number[7]}}</p>
+                                            <p *ngIf="order.driver_status[7] != 1">{{order.driver_names[7]}}</p> 
+                                            <p *ngIf="order.driver_status[7] != 1">{{order.vehicle_number[7]}}</p>
                                         </div>
                                     </td>
                                     <td>
@@ -221,10 +221,10 @@
                                             <b class="total_due">TOTAL DUE </b> <br />
                                             Terms
                                         </div>
-                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[8]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,8)" *ngIf="order.calculatedLoads > 8">
+                                        <div type="filled" class="btn btn-outline-primary waves-effect waves-light truck_load_size color_{{order.driver_status[8]}}" data-toggle="modal" data-target="#inlineForm" (click)="maintainStatus(order.id,8,order.vehicle_number[8])" *ngIf="order.calculatedLoads > 8">
                                             <p>Driver 9</p>
-                                            <p>{{order.driver_names[8]}}</p> 
-                                            <p>{{order.vehicle_number[8]}}</p>
+                                            <p *ngIf="order.driver_status[8] != 1">{{order.driver_names[8]}}</p> 
+                                            <p *ngIf="order.driver_status[8] != 1">{{order.vehicle_number[8]}}</p>
                                         </div>
                                     </td>
                                     <td>

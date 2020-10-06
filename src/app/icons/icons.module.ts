@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { FeatherModule } from 'angular-feather';
-import { Home, List, Circle, Droplet, EyeOff, Check, CheckSquare, LifeBuoy, Star, Copy, User, Edit, Lock, Trash, Archive } from 'angular-feather/icons';
+import { Home, List, Circle, Droplet, EyeOff, Check, Grid, CheckSquare, LifeBuoy, Star, Copy, User, Edit, Lock, Trash, Archive } from 'angular-feather/icons';
 
 const icons = {
   Home,
@@ -13,6 +13,7 @@ const icons = {
   Copy,
   Star,
   Check,
+  Grid,
   LifeBuoy,
   CheckSquare,
   User,

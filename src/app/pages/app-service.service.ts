@@ -45,6 +45,12 @@ export class AppServiceService {
     );
   }
 
+  getDriverByNumber(input,id,vehicle_number) {
+    return this.http.get<Drivers>(this.serverUrl + 'data-list/driver/'+input+'?index_id='+id+'&vehicle_number='+vehicle_number).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   addDrivers(input) {
     return this.http.post<Drivers>(this.serverUrl + 'data-list/drivers',input).pipe(
       catchError(this.handleError)
