@@ -102,7 +102,7 @@
                         <table class="table data-list-view">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th><input type="checkbox" [(ngModel)]="masterSelected" name="list_name" class="parent_checkbox" value="m1" (change)="checkUncheckAll()" /></th>
                                     <th></th>
                                     <th>TIME</th>
                                     <th>SHIP TO</th>
@@ -119,7 +119,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let order of orders">
-                                    <td></td>
+                                    <td><input type="checkbox" [(ngModel)]="order.isSelected" name="list_name" value="{{order.id}}"></td>
                                     <td class="product-action">
                                         <span class="action-edit" style="margin-left: -25px;"><i class="feather icon-edit"></i></span>
                                     </td>
@@ -211,7 +211,7 @@
                                             <p *ngIf="order.driver_status[7] != 1">{{order.vehicle_number[7]}}</p>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="table_td_fees">
                                         <div class="table_paragraph">
                                             Short Load <br />
                                             Standby {{ order.standby_minutes }} <br />

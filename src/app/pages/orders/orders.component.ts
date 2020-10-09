@@ -14,9 +14,12 @@ export class OrdersComponent implements OnInit {
 
   orderForm: FormGroup;
   driverForm: FormGroup;
+  masterSelected:boolean;
+  checkedList:any;
   userInfo: usersInfo;
   username: string;
   order: any;
+  orders_num: number;
   orders: Orders;
   colors: Colors;
   drivers: Drivers;
@@ -88,6 +91,7 @@ export class OrdersComponent implements OnInit {
           this.orders = data['data'];
           this.colors = data['colordata'];
           this.drivers = data['driverdata'];
+          this.orders_num = data['data'].length;
       }
     );
   }
@@ -100,6 +104,22 @@ export class OrdersComponent implements OnInit {
       this.driverForm.patchValue({
         vehicle_number: this.driver_name.value
       });
+  }
+
+  checkUncheckAll(){
+    for (var i = 0; i < this.orders_num; i++) {
+      this.orders[i].isSelected = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  getCheckedItemList(){
+    this.checkedList = [];
+    for (var i = 0; i < this.orders_num; i++) {
+      if(this.orders[i].isSelected)
+      this.checkedList.push(this.orders[i]);
+    }
+    this.checkedList = JSON.stringify(this.checkedList);
   }
 
   maintainStatus(x,y,z){

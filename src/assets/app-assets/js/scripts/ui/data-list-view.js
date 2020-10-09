@@ -11,14 +11,7 @@ $(document).ready(function() {
   "use strict"
   // init list view datatable
   var dataListView = $(".data-list-view").DataTable({
-    responsive: false,
-    columnDefs: [
-      {
-        orderable: true,
-        targets: 0,
-        checkboxes: { selectRow: true }
-      }
-    ],
+    bSort : false,
     dom:
       '<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
     oLanguage: {

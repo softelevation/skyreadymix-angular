@@ -211,3 +211,11 @@
     th.bill_to.sorting {
         min-width: 85px;
     }
+
+    .table_td_fees {
+        min-width: 120px;
+    }
+
+    .ordersData input.parent_checkbox {
+        margin-left: 5px;
+    }
